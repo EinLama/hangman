@@ -1,6 +1,30 @@
 require "spec_helper"
 
 RSpec.describe Quiz do
+  context "winning" do
+    it "is not solved on start" do
+      expect(Quiz.new("hello")).to_not be_solved
+    end
+
+    it "is not solved after some guesses" do
+      q = Quiz.new("abc")
+      expect(q).to_not be_solved
+      q.guess! "d"; q.guess! "a"
+      q.guess! "b"; q.guess! "b"
+
+      expect(q).to_not be_solved
+    end
+
+    it "is solved once all letters are guessed" do
+      q = Quiz.new("abc")
+      expect(q).to_not be_solved
+      q.guess! "d"; q.guess! "a"
+      q.guess! "b"; q.guess! "c"
+
+      expect(q).to be_solved
+    end
+  end
+
   context "Batman" do
     let(:batman) { Quiz.new "Batman" }
 
@@ -55,6 +79,18 @@ RSpec.describe Quiz do
       it "still does not add the char more than once to the guessed list" do
         expect(batman.guess!("a")).to eq(true)
         expect(batman.guessed).to eq(["a"])
+      end
+    end
+
+    context "illegal input" do
+      it "should take the first character if more than one is entered" do
+        expect(batman.guess!("abcdef")).to eq(true)
+        expect(batman.guessed).to eq(["a"])
+      end
+
+      it "returns false if input is too short" do
+        expect(batman.guess!("")).to eq(false)
+        expect(batman.guess!(nil)).to eq(false)
       end
     end
 

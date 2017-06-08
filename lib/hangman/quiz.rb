@@ -9,7 +9,9 @@ class Quiz
   end
 
   def guess!(char)
-    char = char.downcase
+    return false if !char || char.length < 1
+
+    char = char[0].downcase
 
     found_at = @solution.downcase.split('').enum_for(:each_with_index).select { |c, index|
       c == char
@@ -29,6 +31,10 @@ class Quiz
 
   def represent
     @letter_slots
+  end
+
+  def solved?
+    !@letter_slots.include?("_")
   end
 end
 

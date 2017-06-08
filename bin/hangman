@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "hangman"
+
+puts "Welcome to Hangman"
+
+print "Enter your word: "
+word = gets.chomp
+
+quiz = Quiz.new(word)
+
+until quiz.solved?
+  system("clear")
+  puts; puts
+  puts "\tcurrent: #{quiz.represent}"
+  puts "\tyour guesses: #{quiz.guessed.join(" ")}"
+
+  print "Enter your char: "
+  char = gets.chomp
+
+  unless quiz.guess!(char)
+    puts "You entered an illegal character: #{char}"
+    puts "Press ENTER to proceed..."
+    gets
+  end
+end
+
+puts; puts
+puts "You have solved the quiz: #{quiz.represent}"
+puts "... after #{quiz.guessed.count} tries!"

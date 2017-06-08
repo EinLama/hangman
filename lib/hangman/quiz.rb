@@ -9,11 +9,14 @@ class Quiz
   end
 
   def guess!(char)
-    found = @solution.downcase.index(char.downcase)
-    return false unless found
+    char = char.downcase
 
-    if found >= 0
-      @letter_slots[found] = @solution[found]
+    found_at = @solution.downcase.split('').enum_for(:each_with_index).select { |c, index|
+      c == char
+    }.map { |_, index| index }
+
+    found_at.each do |index|
+      @letter_slots[index] = @solution[index]
     end
 
     if guessed.include?(char)

@@ -20,14 +20,16 @@ RSpec.describe Quiz do
       expect(batman.guess!("b")).to eq(true)
       expect(batman.represent).to eq("B_____")
 
-      expect(batman.guess!("t")).to eq(true)
+      expect(batman.guess!("T")).to eq(true)
       expect(batman.represent).to eq("B_t___")
     end
 
     it "adds a letter to the guessed list once guessed" do
       batman.guess! "m"
-
       expect(batman.guessed).to eq(["m"])
+
+      batman.guess! "t"
+      expect(batman.guessed).to eq(["m", "t"])
     end
 
     it "returns false if a letter is guessed twice and doesn't add it again" do
@@ -37,7 +39,24 @@ RSpec.describe Quiz do
       expect(batman.guessed).to eq(["m"])
     end
 
-    it "reveals all occurrences of a letter" do
+    it "returns false if a letter is guessed twice and doesn't add it again even if case differs" do
+      batman.guess! "m"
+
+      expect(batman.guess!("M")).to eq(false)
+      expect(batman.guessed).to eq(["m"])
     end
+
+    context "multiple letters hit" do
+      it "reveals all occurrences of a letter" do
+        expect(batman.guess!("a")).to eq(true)
+        expect(batman.represent).to eq("_a__a_")
+      end
+
+      it "still does not add the char more than once to the guessed list" do
+        expect(batman.guess!("a")).to eq(true)
+        expect(batman.guessed).to eq(["a"])
+      end
+    end
+
   end
 end

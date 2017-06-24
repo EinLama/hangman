@@ -40,6 +40,11 @@ RSpec.describe Quiz do
       expect(batman.represent).to eq("___m__")
     end
 
+    it "returns :wrong if a letter isn't hit" do
+      expect(batman.guess!("x")).to eq(:wrong)
+      expect(batman.guessed).to eq(["x"])
+    end
+
     it "accepts letter insensitive of case" do
       expect(batman.guess!("b")).to eq(:correct)
       expect(batman.represent).to eq("B_____")

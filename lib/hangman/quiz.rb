@@ -25,7 +25,12 @@ class Quiz
       :illegal # duplicate spotted!
     else
       guessed << char
-      :correct
+
+      if found_at.empty?
+        :wrong
+      else
+        :correct
+      end
     end
   end
 

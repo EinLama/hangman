@@ -25,6 +25,44 @@ RSpec.describe Quiz do
     end
   end
 
+  context "diagram" do
+    let(:diagram) { double }
+    let(:quiz) { Quiz.new "abc", diagram }
+
+    it "adds a stroke to the diagram on wrong guess" do
+      expect(diagram).to receive(:next_stroke!)
+      quiz.guess! "x"
+    end
+
+    it "does not add a stroke to the diagram on correct guess" do
+      expect(diagram).to_not receive(:next_stroke!)
+      quiz.guess! "a"
+    end
+
+    it "does not add a stroke to the diagram on duplicate guess" do
+      expect(diagram).to_not receive(:next_stroke!)
+      quiz.guess! "a"; quiz.guess! "a"
+      quiz.guess! "c"
+      quiz.guess! "b"; quiz.guess! "b"
+    end
+  end
+
+  context "losing" do
+    it "is not over when the diagram is incomplete" do
+      diagram = double({:complete? => false})
+
+      quiz = Quiz.new "abc", diagram
+      expect(quiz).to_not be_game_over
+    end
+
+    it "is game over when the diagram is complete" do
+      diagram = double({:complete? => true})
+
+      quiz = Quiz.new "abc", diagram
+      expect(quiz).to be_game_over
+    end
+  end
+
   context "Batman" do
     let(:batman) { Quiz.new "Batman" }
 

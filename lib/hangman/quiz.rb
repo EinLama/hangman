@@ -1,8 +1,9 @@
 class Quiz
   attr_reader :guessed
 
-  def initialize(searched_word)
+  def initialize(searched_word, diagram=Diagram.new)
     @solution = searched_word
+    @diagram = diagram
     @guessed = []
 
     @letter_slots = "_" * searched_word.length
@@ -27,6 +28,7 @@ class Quiz
       guessed << char
 
       if found_at.empty?
+        @diagram.next_stroke!
         :wrong
       else
         :correct
@@ -40,6 +42,10 @@ class Quiz
 
   def solved?
     !@letter_slots.include?("_")
+  end
+
+  def game_over?
+    @diagram.complete?
   end
 end
 

@@ -10,11 +10,10 @@ word = gets.chomp
 
 quiz = Quiz.new(word)
 
-until quiz.solved?
+while !quiz.solved? && !quiz.game_over?
   system("clear")
   puts; puts
-  puts "\tcurrent: #{quiz.represent}"
-  puts "\tyour guesses: #{quiz.guessed.join(" ")}"
+  puts quiz
 
   print "Enter your char: "
   char = gets.chomp
@@ -27,5 +26,9 @@ until quiz.solved?
 end
 
 puts; puts
-puts "You have solved the quiz: #{quiz.represent}"
-puts "... after #{quiz.guessed.count} tries!"
+if quiz.solved?
+  puts "You have solved the quiz: #{quiz.represent}"
+  puts "... after #{quiz.guessed.count} tries!"
+else
+  puts "You have lost!"
+end

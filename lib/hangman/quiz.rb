@@ -40,6 +40,14 @@ class Quiz
     @letter_slots
   end
 
+  def to_s
+    <<-EOF
+    \t#{@diagram}
+    \tcurrent: #{self.represent}
+    \tyour guesses: #{self.guessed.join(" ")}
+    EOF
+  end
+
   def solved?
     !@letter_slots.include?("_")
   end

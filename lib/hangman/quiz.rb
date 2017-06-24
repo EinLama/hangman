@@ -9,7 +9,7 @@ class Quiz
   end
 
   def guess!(char)
-    return false if !char || char.length < 1
+    return :illegal if !char || char.length < 1
 
     char = char[0].downcase
 
@@ -22,10 +22,10 @@ class Quiz
     end
 
     if guessed.include?(char)
-      false
+      :illegal # duplicate spotted!
     else
       guessed << char
-      true
+      :correct
     end
   end
 

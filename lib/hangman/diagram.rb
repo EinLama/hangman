@@ -1,5 +1,9 @@
 
 class Diagram
+  attr_reader :strokes
+
+  MAX_STROKES = 6
+
   def initialize
     @strokes = 0
   end
@@ -11,13 +15,17 @@ class Diagram
   end
 
   def dead!
-    @state = :dead
+    @strokes = MAX_STROKES
     self
   end
 
-  def next_step!
-    @strokes += 1
+  def next_stroke!
+    @strokes += 1 unless self.complete?
     self
+  end
+
+  def complete?
+    @strokes >= MAX_STROKES
   end
 
   def for_strokes
@@ -38,15 +46,11 @@ class Diagram
   end
 
   def to_s
-    if @state == :dead
-      self.dead_man
-    else
-      self.empty_gallow
-    end
+    self.for_strokes.join("\n").rstrip
   end
 
   def empty_gallow
-      <<-EOF
+    s = <<-EOF
       ______
       |/
       |
@@ -55,10 +59,12 @@ class Diagram
       |
       --------
     EOF
+
+    s.strip
   end
 
   def dead_man
-    <<-EOF
+    s = <<-EOF
       ______
       |/   |
       |    o
@@ -67,5 +73,7 @@ class Diagram
       |
       --------
     EOF
+
+    s.strip
   end
 end

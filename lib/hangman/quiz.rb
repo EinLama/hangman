@@ -1,5 +1,5 @@
 class Quiz
-  attr_reader :guessed
+  attr_reader :guessed, :solution
 
   def initialize(searched_word, diagram=Diagram.new)
     @solution = searched_word

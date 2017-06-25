@@ -42,7 +42,8 @@ class Quiz
 
   def to_s
     <<-EOF
-    \t#{@diagram}
+#{@diagram}
+
     \tcurrent: #{self.represent}
     \tyour guesses: #{self.guessed.join(" ")}
     EOF

@@ -2,7 +2,7 @@
 class Diagram
   attr_reader :strokes
 
-  MAX_STROKES = 6
+  MAX_STROKES = 4
 
   def initialize
     @strokes = 0
@@ -42,11 +42,11 @@ class Diagram
       end
     end
 
-    draw_lines
+    draw_lines.map(&:strip)
   end
 
   def to_s
-    self.for_strokes.join("\n").rstrip
+    self.for_strokes.join("\n")
   end
 
   def empty_gallow
@@ -68,8 +68,8 @@ class Diagram
       ______
       |/   |
       |    o
-      |   /|\
-      |   / \
+      |   /|\\
+      |   / \\
       |
       --------
     EOF

@@ -2,19 +2,21 @@ require "spec_helper"
 
 RSpec.describe Diagram do
   let(:dead) {
-    <<-EOF
+    x = <<-EOF
       ______
       |/   |
       |    o
-      |   /|\
-      |   / \
+      |   /|\\
+      |   / \\
       |
       --------
     EOF
+
+    x.split("\n").map(&:strip).join("\n")
   }
 
   let(:empty_gallow) {
-      <<-EOF
+      x = <<-EOF
       ______
       |/
       |
@@ -23,10 +25,12 @@ RSpec.describe Diagram do
       |
       --------
     EOF
+
+    x.split("\n").map(&:strip).join("\n")
   }
 
   let(:one_miss) {
-    <<-EOF
+    x = <<-EOF
       ______
       |/   |
       |
@@ -35,9 +39,11 @@ RSpec.describe Diagram do
       |
       --------
     EOF
+
+    x.split("\n").map(&:strip).join("\n")
   }
   let(:two_misses) {
-    <<-EOF
+    x = <<-EOF
       ______
       |/   |
       |    o
@@ -46,6 +52,8 @@ RSpec.describe Diagram do
       |
       --------
     EOF
+
+    x.split("\n").map(&:strip).join("\n")
   }
 
   let(:diagram) { Diagram.new }
@@ -76,7 +84,7 @@ RSpec.describe Diagram do
     diagram.dead!.next_stroke!.next_stroke!
 
     expect(diagram.to_s).to eq(dead.strip)
-    expect(diagram.strokes).to eq(6)
+    expect(diagram.strokes).to eq(4)
     expect(diagram).to be_complete
   end
 end
